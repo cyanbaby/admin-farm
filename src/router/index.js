@@ -29,6 +29,8 @@ import Layout from '@/layout'
  * constantRoutes
  * a base page that does not have permission requirements
  * all roles can be accessed
+ * 权限组 0是农户，1是粮企，2是政府用户，999管理员
+ * 首页，作物表，个人信息表都可以访问
  */
 export const constantRoutes = [
   {
@@ -46,13 +48,40 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
-    }]
+    redirect: '/home',
+    children: [
+      {
+        path: 'home',
+        name: 'Home',
+        component: () => import('@/views/home/index'),
+        meta: { title: '首页', icon: 'list' }
+      }
+    ]
+  },
+
+  {
+    path: '/crops',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'CropsIndex',
+        component: () => import('@/views/crops/index'),
+        meta: { title: '作物', icon: 'list' }
+      }
+    ]
+  },
+  {
+    path: '/profile',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'ProfileIndex',
+        component: () => import('@/views/profile/index'),
+        meta: { title: '个人信息', icon: 'list' }
+      }
+    ]
   },
 
   {
@@ -120,13 +149,15 @@ export const constantRoutes = [
             children: [
               {
                 path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
+                component: () =>
+                  import('@/views/nested/menu1/menu1-2/menu1-2-1'),
                 name: 'Menu1-2-1',
                 meta: { title: 'Menu1-2-1' }
               },
               {
                 path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
+                component: () =>
+                  import('@/views/nested/menu1/menu1-2/menu1-2-2'),
                 name: 'Menu1-2-2',
                 meta: { title: 'Menu1-2-2' }
               }
@@ -164,11 +195,12 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    // mode: 'history', // require service support
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  })
 
 const router = createRouter()
 
