@@ -13,3 +13,18 @@ export function setToken(token) {
 export function removeToken() {
   return Cookies.remove(TokenKey)
 }
+
+
+
+const FarmTokenKey = 'admin_farm_token'
+export function getFarmToken() {
+  return Cookies.get(FarmTokenKey)
+}
+
+export function setFarmToken(token) {
+  return Cookies.set(FarmTokenKey, token)
+}
+
+export function removeFarmToken() {
+  return Cookies.remove(FarmTokenKey)
+}

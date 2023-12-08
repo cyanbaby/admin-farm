@@ -67,7 +67,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'CropsIndex',
         component: () => import('@/views/crops/index'),
-        meta: { title: '作物', icon: 'list' }
+        meta: {  roles: ['admin2'], title: '作物', icon: 'list' }
       }
     ]
   },

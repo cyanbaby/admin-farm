@@ -80,5 +80,82 @@ module.exports = [
         data: 'success'
       }
     }
-  }
+  },
+
+  // admin-farm - 用户注册
+  {
+    url: '/register',
+    type: 'post',
+    response: _ => {
+      return {
+        "message": "User registered successfully"
+      }
+    }
+  },
+
+  // admin-farm - 用户登录
+  {
+    url: '/login',
+    type: 'post',
+    response: _ => {
+      return {
+        "email": "admin@123",
+        "last_login": "Fri, 08 Dec 2023 20:06:28 GMT",
+        "message": "Login successful",
+        "organization_name": "Admin Organization",
+        "organization_type": "Government",
+        "phonenumber": "123123",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MDIxMjM2MjB9.iTGwBBTuposMszhZWxCvo9tjfme-IZb0TjgkjCj4hiY",
+        "user_type": 999,
+        "username": "admin"
+      }
+    }
+  },
+
+  // admin-farm - 获取用户单位表(获取组织列表)
+  {
+    url: '/get_organizations',
+    type: 'get',
+    response: _ => {
+      return [
+        {
+          "additional_info": "Organization for administrative users",
+          "organization_id": 1,
+          "organization_name": "Admin Organization",
+          "organization_type": "Government"
+        },
+        {
+          "additional_info": null,
+          "organization_id": 2,
+          "organization_name": "a县人民政府",
+          "organization_type": "政府机构"
+        }
+      ]
+    }
+  },
+
+  // admin-farm - 获取用户单位表(获取组织列表)
+  {
+    url: '/get_organizations',
+    type: 'get',
+    response: _ => {
+      return [
+        {
+          "additional_info": "Organization for administrative users",
+          "organization_id": 1,
+          "organization_name": "Admin Organization",
+          "organization_type": "Government"
+        },
+        {
+          "additional_info": null,
+          "organization_id": 2,
+          "organization_name": "a县人民政府",
+          "organization_type": "政府机构"
+        }
+      ]
+    }
+  },
+
+  // admin-farm 登录
+
 ]

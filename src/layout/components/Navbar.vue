@@ -7,23 +7,19 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <el-tooltip class="item" effect="dark" :content="userName" placement="left">
+            <div class="user-avatar">{{ avatarName }}</div>
+          </el-tooltip>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
             <el-dropdown-item>
-              Home
+              首页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+            <span style="display:block;">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -44,8 +40,37 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
-    ])
+      'userName'
+    ]),
+    avatarName() {
+      // 检查 this.userName 是否为空
+      if (!this.userName || this.userName.length === 0) {
+        return '';
+      }
+
+      // 判断是否全是英文
+      if (/^[A-Za-z]+$/.test(this.userName)) {
+        // 如果是，取首字母并转大写
+        return this.userName.charAt(0).toUpperCase();
+      }
+
+      // 判断是否全是中文
+      if (/^[\u4e00-\u9fa5]+$/.test(this.userName)) {
+        // 如果是，取最后一个字符
+        return this.userName.charAt(this.userName.length - 1);
+      }
+
+      // 如果都不是，取第一个字符
+      let firstChar = this.userName.charAt(0);
+
+      // 如果第一个字符是英文，转大写
+      if (/[A-Za-z]/.test(firstChar)) {
+        return firstChar.toUpperCase();
+      }
+
+      // 否则直接返回第一个字符
+      return firstChar;
+    }
   },
   methods: {
     toggleSideBar() {
@@ -123,6 +148,12 @@ export default {
           width: 40px;
           height: 40px;
           border-radius: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #fff;
+          background-color: royalblue;
+
         }
 
         .el-icon-caret-bottom {

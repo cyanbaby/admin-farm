@@ -35,11 +35,29 @@ export function getAllUsers() {
     // }
   })
 }
+
 // admin-farm - 用户注册
 export function register(data) {
   return request({
-    url: prefix + '/register',
+    url: '/register',
     method: 'post',
     data
+  })
+}
+
+// admin-farm - 用户登录
+export function loginFarm(data) {
+  return request({
+    url: '/login',
+    method: 'post',
+    data
+  })
+}
+
+// admin-farm - 获取用户单位表(获取组织列表)
+export function getOrganizations() {
+  return request({
+    url: '/get_organizations',
+    method: 'get'
   })
 }

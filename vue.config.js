@@ -36,13 +36,14 @@ module.exports = {
       warnings: false,
       errors: true,
     },
-    proxy: {
-      "/dev-api/cyan": {
-        target: "http://api3.andylive.cn/",
-        changeOrigin: true, 
-        pathRewrite: { "^/dev-api/cyan": "" },
-      },
-    },
+    // proxy: {
+    //   "/dev-api/cyan": {
+    //     // target: "http://api3.andylive.cn/",
+    //     target: "http://localhost:3000/",
+    //     changeOrigin: true, 
+    //     pathRewrite: { "^/dev-api/cyan": "" },
+    //   },
+    // },
     before: require("./mock/mock-server.js"),
   },
   configureWebpack: {
