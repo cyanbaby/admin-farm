@@ -58,7 +58,7 @@ export const constantRoutes = [
       }
     ]
   },
-
+  
   {
     path: '/crops',
     component: Layout,
@@ -84,46 +84,55 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: 'Example', icon: 'el-icon-s-help' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
+]
 
+export const asyncRoutes = [
   {
-    path: '/form',
+    path: '/users',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        name: 'UsersIndex',
+        component: () => import('@/views/users/index'),
+        meta: { roles: [999], title: '用户管理', icon: 'list' }
+      }
+    ]
+  },
+  {
+    path: '/harvests',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'HarvestsIndex',
+        component: () => import('@/views/harvests/index'),
+        meta: { roles: [999], title: '收获管理', icon: 'list' }
       }
     ]
   },
 
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
-
-export const asyncRoutes = [
   {
     path: '/nested',
     component: Layout,
@@ -195,7 +204,7 @@ export const asyncRoutes = [
   },
 
   // 404 page must be placed at the end !!!
-  // { path: '*', redirect: '/404', hidden: true }
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () =>
