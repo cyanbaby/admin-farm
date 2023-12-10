@@ -10,5 +10,8 @@ const getters = {
   farmToken: state => state.user.farmToken,
   userInfo: state => state.user.userInfo,
   
+  roles: state => state.user.roles,
+  permission_routes: state => state.permission.routes
+  
 }
 export default getters

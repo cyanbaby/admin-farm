@@ -13,7 +13,8 @@ const getDefaultState = () => {
 
     farmToken: getFarmToken(),
     userName: '',
-    userInfo: {}
+    userInfo: {},
+    roles: []
   }
 }
 
@@ -42,6 +43,9 @@ const mutations = {
   SET_USER_INFO: (state, _userinfo) => {
     console.log('_userinfo', _userinfo)
     state.userInfo = _userinfo
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
   }
 }
 
@@ -109,12 +113,16 @@ const actions = {
     return new Promise((resolve, reject) => {
       if (state.farmToken) {
         const _username = localStorage.getItem('_username')
-        // console.log('_username', _username)
         commit('SET_FARM_NAME', _username)
+        
         const _userinfo = localStorage.getItem('_userinfo')
-        console.log('_userinfo 2', _userinfo)
-        commit('SET_USER_INFO', JSON.parse(_userinfo))
-        resolve()
+        const userinfo = JSON.parse(_userinfo)
+        commit('SET_USER_INFO', userinfo)
+
+        // 0 农户	1 粮企	2 政府用户	999 管理员
+        commit('SET_ROLES', [userinfo.user_type])
+
+        resolve([userinfo.user_type])
       } else {
         reject()
       }

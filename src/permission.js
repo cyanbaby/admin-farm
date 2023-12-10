@@ -31,17 +31,46 @@ router.beforeEach(async(to, from, next) => {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
-    } else {
-      // const hasGetUserInfo = store.getters.name
-      const hasGetUserInfo = store.getters.userName
-      if (hasGetUserInfo) {
-        next()
-      } else {
-        try {
-          // get user info
-          await store.dispatch('user/getInfo')
+    } 
+    // else {
+    //   // const hasGetUserInfo = store.getters.name
+    //   const hasGetUserInfo = store.getters.userName
+    //   if (hasGetUserInfo) {
+    //     next()
+    //   } else {
+    //     try {
+    //       // get user info
+    //       await store.dispatch('user/getInfo')
 
-          next()
+    //       next()
+    //     } catch (error) {
+    //       // remove token and go to login page to re-login
+    //       await store.dispatch('user/resetToken')
+    //       Message.error(error || 'Has Error')
+    //       next(`/login?redirect=${to.path}`)
+    //       NProgress.done()
+    //     }
+    //   }
+    // }
+    else{
+    // 确定用户是否通过getInfo获得了权限角色
+    const hasRoles = store.getters.roles && store.getters.roles.length > 0 //这里指的是src/store/getters.js的roles
+    // console.log(hasRoles)
+    // console.log(store.getters.roles)
+
+    //判断是否已经有roles了
+    if (hasRoles) {
+      next(); //当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入404页面
+    } else {
+      try {
+          const roles = await store.dispatch('user/getInfo') //第一步
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          router.addRoutes(accessRoutes)
+          next({
+            ...to,
+            replace: true
+          })
+
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
@@ -51,6 +80,7 @@ router.beforeEach(async(to, from, next) => {
         }
       }
     }
+
   } else {
     /* has no token*/
 
