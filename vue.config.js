@@ -36,15 +36,15 @@ module.exports = {
       warnings: false,
       errors: true,
     },
-    // proxy: {
-    //   "/dev-api/cyan": {
-    //     // target: "http://api3.andylive.cn/",
-    //     target: "http://localhost:3000/",
-    //     changeOrigin: true, 
-    //     pathRewrite: { "^/dev-api/cyan": "" },
-    //   },
-    // },
-    before: require("./mock/mock-server.js"),
+    proxy: {
+      "/dev-api": {
+        target: "http://api3.andylive.cn/",
+        // target: "http://localhost:3000/",
+        changeOrigin: true, 
+        pathRewrite: { "^/dev-api": "" },
+      },
+    },
+    // before: require("./mock/mock-server.js"),
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

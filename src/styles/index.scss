@@ -63,3 +63,25 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+
+
+.custom-add-form {
+  &--label-100 {
+    .el-form-item__label {
+      width: 110px;
+    }
+  }
+  .el-form-item {
+    display: flex;
+    .el-form-item__content {
+      flex: 1;
+      .el-input-number,
+      .el-select {
+        width: 220px;
+      }
+      // .el-select {
+      //   width: 100%;
+      // }
+    }
+  }
+}

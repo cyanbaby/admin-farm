@@ -28,13 +28,20 @@ export function logout() {
 // admin-farm - 获取用户表
 export function getAllUsers() {
   return request({
-    url: prefix + '/get_all_users',
-    method: 'get',
-    // headers: {
-    //   Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MDIwMDgyNTN9.otXmeZqKkfiyi8tJf2kS5aXwB0hX_ROau0lSdUiiX54'
-    // }
+    url: '/get_all_users',
+    method: 'get'
   })
 }
+
+// admin-farm - 修改用户
+export function updateUserInfo(data) {
+  return request({
+    url: '/update_user_info',
+    method: 'post',
+    data
+  })
+}
+
 
 // admin-farm - 用户注册
 export function register(data) {
@@ -54,10 +61,11 @@ export function loginFarm(data) {
   })
 }
 
-// admin-farm - 获取用户单位表(获取组织列表)
-export function getOrganizations() {
+
+// admin-farm - 用户注销
+export function logoutFarm() {
   return request({
-    url: '/get_organizations',
-    method: 'get'
+    url: '/logout',
+    method: 'post'
   })
 }

@@ -1,12 +1,15 @@
 <template>
   <div class="app-container">
     <div class="farm-talbe-header" style="padding-bottom: 20px">
-      <el-button type="primary" @click="dialogFormVisible = true">添加作物</el-button>
+      <el-button type="primary" @click="handleClickAddBtn">添加组织</el-button>
     </div>
     <el-table :data="tableData" v-loading="listLoading" border style="width: 100%">
-      <el-table-column prop="crop_name" label="作物名称"> </el-table-column>
-      <el-table-column prop="crop_type_id" label="crop_type_id">
-      </el-table-column>
+      
+      <!-- <el-table-column prop="organization_id" label="主键"> </el-table-column> -->
+      <el-table-column prop="organization_name" label="单位名称"> </el-table-column>
+      <el-table-column prop="organization_type" label="单位类型"></el-table-column>
+      <el-table-column prop="additional_info" label="地址"></el-table-column>
+      
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button type="danger" @click="remove(scope.row)">删除</el-button>
@@ -14,10 +17,16 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog title="添加作物" :visible.sync="dialogFormVisible">
+    <el-dialog title="添加组织" :visible.sync="dialogFormVisible">
       <el-form ref="ruleForm" :model="form" :rules="rules">
-        <el-form-item label="作物名称" prop="crop_name">
-          <el-input v-model="form.crop_name" placeholder="请填写作物名称" />
+        <el-form-item label="单位名称" prop="name">
+          <el-input v-model="form.name" placeholder="请填写单位名称" />
+        </el-form-item>
+        <el-form-item label="单位类型" prop="type">
+          <el-input v-model="form.type" placeholder="请填写单位类型" />
+        </el-form-item>
+        <el-form-item label="单位地址" prop="info">
+          <el-input v-model="form.info" placeholder="请填写单位地址" />
         </el-form-item>
       </el-form>
 
@@ -29,22 +38,30 @@
   </div>
 </template>
 <script>
-import { getCropTypes, addCropType, deleteCropType } from "@/api/crops";
+import { getOrganizations, addOrganizations, deleteOrganizations } from '@/api/organizations'
 
 export default {
-  name: "Crops",
+    name: 'Organizations',
   data() {
     return {
       tableData: [],
       dialogFormVisible: false,
+      form: {
+        "name": "",
+        "type": "",
+        "info": ""
+      },
       listLoading: true,
       addLoading: false,
-      form: {
-        crop_name: "",
-      },
       rules: {
-        crop_name: [
-          { required: true, message: "请填写作物名称", trigger: "blur" },
+        name: [
+          { required: true, message: "请填写单位名称", trigger: "blur" },
+        ],
+        type: [
+          { required: true, message: "请填写单位类型", trigger: "blur" },
+        ],
+        info: [
+          { required: true, message: "请填写单位地址", trigger: "blur" },
         ],
       },
     };
@@ -55,9 +72,8 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      getCropTypes().then((res) => {
-        const { crop_types } = res;
-        this.tableData = crop_types;
+      getOrganizations().then((res) => {
+        this.tableData = res;
       })
       .finally(() => {
         this.listLoading = false
@@ -69,9 +85,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        const crop_type_id = row.crop_type_id
-        deleteCropType({
-          crop_type_id
+        const organization_name = row.organization_name
+        deleteOrganizations({
+          organization_name
         })
           .then((res) => {
             this.$message({
@@ -91,11 +107,19 @@ export default {
         });
       });
     },
+    handleClickAddBtn() {
+      this.form = {
+        "name": "",
+        "type": "",
+        "info": ""
+      }
+      this.dialogFormVisible = true
+    },
     handleAdd() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.addLoading = true
-          addCropType(this.form)
+          addOrganizations(this.form)
             .then((res) => {
               this.$message.success("添加成功");
               this.dialogFormVisible = false;

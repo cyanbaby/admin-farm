@@ -48,29 +48,22 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/home',
-    children: [
-      {
-        path: 'home',
-        name: 'Home',
-        component: () => import('@/views/home/index'),
-        meta: { title: '首页', icon: 'list' }
-      }
-    ]
+    redirect: '/profile/index',
   },
   
-  {
-    path: '/crops',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'CropsIndex',
-        component: () => import('@/views/crops/index'),
-        meta: {  roles: ['admin2'], title: '作物', icon: 'list' }
-      }
-    ]
-  },
+  // {
+  //   path: '/crops',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'CropsIndex',
+  //       component: () => import('@/views/crops/index'),
+  //       meta: {  roles: ['admin2'], title: '作物', icon: 'list' }
+  //     }
+  //   ]
+  // },
+
   {
     path: '/profile',
     component: Layout,
@@ -108,15 +101,16 @@ export const constantRoutes = [
 ]
 
 export const asyncRoutes = [
+  
   {
-    path: '/users',
+    path: '/massifs',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'UsersIndex',
-        component: () => import('@/views/users/index'),
-        meta: { roles: [999], title: '用户管理', icon: 'list' }
+        name: 'MassifsIndex',
+        component: () => import('@/views/massifs/index'),
+        meta: { roles: [999], title: '地块管理', icon: 'list' }
       }
     ]
   },
@@ -132,6 +126,67 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/irrigations',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'IrrigationsIndex',
+        component: () => import('@/views/irrigations/index'),
+        meta: { roles: [999], title: '灌溉管理', icon: 'list' }
+      }
+    ]
+  },
+  {
+    path: '/sales',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'SalesIndex',
+        component: () => import('@/views/sales/index'),
+        meta: { roles: [999], title: '销售记录', icon: 'list' }
+      }
+    ]
+  },
+  {
+    path: '/crops',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'CropsIndex',
+        component: () => import('@/views/crops/index'),
+        meta: { roles: [999], title: '作物管理', icon: 'list' }
+      }
+    ]
+  },
+  {
+    path: '/users',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'UsersIndex',
+        component: () => import('@/views/users/index'),
+        meta: { roles: [999], title: '用户管理', icon: 'list' }
+      }
+    ]
+  },
+  {
+    path: '/organizations',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'OrganizationsIndex',
+        component: () => import('@/views/organizations/index'),
+        meta: { roles: [999], title: '组织管理', icon: 'list' }
+      }
+    ]
+  },
+  
 
   {
     path: '/nested',

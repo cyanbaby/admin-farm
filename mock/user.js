@@ -112,50 +112,112 @@ module.exports = [
     }
   },
 
-  // admin-farm - 获取用户单位表(获取组织列表)
+  // admin-farm - 获取用户
   {
-    url: '/get_organizations',
+    url: '/get_all_users',
     type: 'get',
     response: _ => {
       return [
         {
-          "additional_info": "Organization for administrative users",
           "organization_id": 1,
-          "organization_name": "Admin Organization",
-          "organization_type": "Government"
+          "password": "admin",
+          "phonenumber": "123123",
+          "user_id": 1,
+          "user_lastonline": "Sun, 10 Dec 2023 22:33:04 GMT",
+          "user_online": 1,
+          "user_type": 999,
+          "useremail": "admin@123",
+          "username": "admin"
         },
         {
-          "additional_info": null,
+          "organization_id": 1,
+          "password": "govv",
+          "phonenumber": "1234561234567",
+          "user_id": 5,
+          "user_lastonline": "Thu, 07 Dec 2023 12:02:03 GMT",
+          "user_online": 1,
+          "user_type": 2,
+          "useremail": "govv@1234",
+          "username": "govv"
+        },
+        {
+          "organization_id": 1,
+          "password": "gov",
+          "phonenumber": "123456123456",
+          "user_id": 4,
+          "user_lastonline": "Thu, 07 Dec 2023 12:25:27 GMT",
+          "user_online": 1,
+          "user_type": 2,
+          "useremail": "gov@123",
+          "username": "gov"
+        },
+        {
+          "organization_id": 1,
+          "password": "govv2",
+          "phonenumber": "12345612345678",
+          "user_id": 6,
+          "user_lastonline": "Fri, 08 Dec 2023 01:12:56 GMT",
+          "user_online": 1,
+          "user_type": 2,
+          "useremail": "govv2@1234",
+          "username": "govv2"
+        },
+        {
+          "organization_id": 1,
+          "password": "cyan",
+          "phonenumber": "18574503525",
+          "user_id": 7,
+          "user_lastonline": "Fri, 08 Dec 2023 01:40:07 GMT",
+          "user_online": 1,
+          "user_type": 2,
+          "useremail": "cyan@1234",
+          "username": "cyan"
+        },
+        {
+          "organization_id": 1,
+          "password": "govv3",
+          "phonenumber": "123456123456789",
+          "user_id": 8,
+          "user_lastonline": "Fri, 08 Dec 2023 01:46:28 GMT",
+          "user_online": 1,
+          "user_type": 2,
+          "useremail": "govv3@1234",
+          "username": "govv3"
+        },
+        {
+          "organization_id": 1,
+          "password": "cyan3",
+          "phonenumber": "18500000000",
+          "user_id": 9,
+          "user_lastonline": "Fri, 08 Dec 2023 15:48:02 GMT",
+          "user_online": 1,
+          "user_type": 2,
+          "useremail": "cyan3@1234",
+          "username": "cyan3"
+        },
+        {
+          "organization_id": 1,
+          "password": "buy",
+          "phonenumber": "1234512345",
+          "user_id": 3,
+          "user_lastonline": "Fri, 08 Dec 2023 20:44:25 GMT",
+          "user_online": 1,
+          "user_type": 1,
+          "useremail": "buy@123",
+          "username": "buy"
+        },
+        {
           "organization_id": 2,
-          "organization_name": "a县人民政府",
-          "organization_type": "政府机构"
+          "password": "farm",
+          "phonenumber": "12341234",
+          "user_id": 2,
+          "user_lastonline": "Sun, 10 Dec 2023 20:45:35 GMT",
+          "user_online": 1,
+          "user_type": 0,
+          "useremail": "farm@123",
+          "username": "farm"
         }
       ]
     }
   },
-
-  // admin-farm - 获取用户单位表(获取组织列表)
-  {
-    url: '/get_organizations',
-    type: 'get',
-    response: _ => {
-      return [
-        {
-          "additional_info": "Organization for administrative users",
-          "organization_id": 1,
-          "organization_name": "Admin Organization",
-          "organization_type": "Government"
-        },
-        {
-          "additional_info": null,
-          "organization_id": 2,
-          "organization_name": "a县人民政府",
-          "organization_type": "政府机构"
-        }
-      ]
-    }
-  },
-
-  // admin-farm 登录
-
 ]

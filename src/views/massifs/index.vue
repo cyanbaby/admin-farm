@@ -1,42 +1,45 @@
 <template>
   <div class="app-container">
     <div class="farm-talbe-header" style="padding-bottom: 20px">
-      <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addVisible = true">添加收获记录</el-button>
+      <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleClickAddBtn">添加地块</el-button>
     </div>
     <el-table :data="tableData" v-loading="listLoading" border style="width: 100%">
-      <!-- <el-table-column prop="harvest_id" label="主键"> </el-table-column> -->
-      <el-table-column prop="massif_id" label="地块编号"> </el-table-column>
-      <el-table-column prop="harvest_quantity" label="收获数量"> </el-table-column>
-      <el-table-column prop="sowing_time" label="播种时间"> </el-table-column>
-      <el-table-column prop="harvest_time" label="收获时间">
+      <el-table-column prop="id" label="地块编号"> </el-table-column>
+      <el-table-column prop="crop_type" label="作物类型"> </el-table-column>
+      <el-table-column prop="planting_date" label="播种时间"> </el-table-column>
+      <el-table-column prop="harvest_date" label="预计收获时间">
       </el-table-column>
 
       <el-table-column fixed="right" label="操作" width="220">
         <template slot-scope="scope">
+          <el-button type="primary" icon="el-icon-edit" @click="handleClickModifyRow(scope.row)">编辑</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="handleRemoveRow(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog title="添加收获记录" :visible.sync="addVisible">
+    <el-dialog title="添加地块" :visible.sync="addVisible">
       <el-form ref="addForm" :model="addForm" :rules="addRules" class="custom-add-form custom-add-form--label-100">
-        <el-form-item label="地块编号" prop="massif_id">
-          <el-select v-model="addForm.massif_id" placeholder="请选择地块编号">
-            <el-option v-for="item in massifsOptions" :key="item.id" :label="item.id"
-              :value="item.id">
+        <el-form-item label="作物类型" prop="crop_type_id">
+          <el-select v-model="addForm.crop_type_id" placeholder="请选择作物类型">
+            <el-option v-for="item in crop_types" :key="item.crop_type_id" :label="item.crop_name"
+              :value="item.crop_type_id">
             </el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="收获数量" prop="harvest_quantity">
-          <el-input-number v-model="addForm.harvest_quantity" :precision="2"></el-input-number>
         </el-form-item>
         <el-form-item label="播种时间" prop="sowing_time">
           <el-date-picker v-model="addForm.sowing_time" type="datetime" placeholder="选择日期时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="预计收获时间" prop="harvest_time">
-          <el-date-picker v-model="addForm.harvest_time" type="datetime" placeholder="选择日期时间">
+        <el-form-item label="预计收获时间" prop="ex_harvest_time">
+          <el-date-picker v-model="addForm.ex_harvest_time" type="datetime" placeholder="选择日期时间">
           </el-date-picker>
+        </el-form-item>
+        <el-form-item label="地块所有者" prop="massif_owner_id">
+          <el-select v-model="addForm.massif_owner_id" placeholder="请选择地块所有者">
+            <el-option v-for="item in users" :key="item.user_id" :label="item.username" :value="item.user_id">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
 
@@ -81,9 +84,6 @@
 <script>
 import { getCropTypes } from "@/api/crops";
 import { getAllUsers } from "@/api/user";
-import { getHarvest, addHarvest, deleteHarvest } from "@/api/harvests";
-
-
 import {
   getMassifs,
   addMassifs,
@@ -92,11 +92,12 @@ import {
 } from "@/api/massifs";
 
 export default {
-  name: 'Harvests',
+  name: "Crops",
   data() {
     return {
-      listLoading: true,
       tableData: [],
+      listLoading: true,
+
       form: {
         crop_name: "",
       },
@@ -107,29 +108,27 @@ export default {
       },
       crop_types: [],
       users: [],
-      massifsOptions: [],
 
       addVisible: false,
       addLoading: false,
       addForm: {
-        "massif_id": undefined,
-        "harvest_quantity": undefined,
-        "harvest_time": undefined,
-        "sowing_time": undefined,
-
+        crop_type_id: undefined, // 作物id
+        sowing_time: undefined,  // 播种时间
+        ex_harvest_time: undefined,  // 预计收获时间
+        massif_owner_id: undefined, // 地块所有者
       },
       addRules: {
-        massif_id: [
-          { required: true, message: "请选择地块编号", trigger: "blur" },
-        ],
-        harvest_quantity: [
-          { required: true, message: "请填写收获数量", trigger: "blur" },
+        crop_type_id: [
+          { required: true, message: "请选择作物类型", trigger: "blur" },
         ],
         sowing_time: [
           { required: true, message: "请选择播种时间", trigger: "blur" },
         ],
-        harvest_time: [
-          { required: true, message: "请选择收获时间", trigger: "blur" },
+        ex_harvest_time: [
+          { required: true, message: "请选择预计收获时间", trigger: "blur" },
+        ],
+        massif_owner_id: [
+          { required: true, message: "请选择地块所有者", trigger: "blur" },
         ],
       },
 
@@ -152,23 +151,18 @@ export default {
       this.users = res;
     });
 
-    getMassifs().then((res) => {
-      const { massifs } = res;
-      this.massifsOptions = massifs;
-    });
-
     this.getList();
   },
   methods: {
     getList() {
       this.listLoading = true
-      getHarvest().then((res) => {
-        const { harvests } = res;
-        this.tableData = harvests;
+      getMassifs().then((res) => {
+        const { massifs } = res;
+        this.tableData = massifs;
       })
       .finally(() => {
-      this.listLoading = false
-          })
+        this.listLoading = false
+      })
     },
     handleRemoveRow(row) {
       this.$confirm("此操作将删除该行数据, 是否继续?", "提示", {
@@ -177,9 +171,9 @@ export default {
         type: "warning",
       })
         .then(() => {
-          const harvest_id = row.harvest_id;
-          deleteHarvest({
-            harvest_id,
+          const massif_id = row.id;
+          deleteMassifs({
+            massif_id,
           })
             .then((res) => {
               this.$message({
@@ -202,7 +196,7 @@ export default {
       this.$refs.addForm.validate((valid) => {
         if (valid) {
           this.addLoading = true;
-          addHarvest(this.addForm)
+          addMassifs(this.addForm)
             .then((res) => {
               this.$message.success("添加成功");
               this.addVisible = false;
@@ -216,6 +210,35 @@ export default {
           return false;
         }
       });
+    },
+    handleClickAddBtn() {
+      this.addForm = {
+        crop_type_id: undefined, // 作物id
+        sowing_time: undefined,  // 播种时间
+        ex_harvest_time: undefined,  // 预计收获时间
+        massif_owner_id: undefined, // 地块所有者
+      },
+      this.addVisible = true
+    },
+    handleClickModifyRow(row) {
+ 
+      this.editForm = {
+        massif_id: undefined,
+        new_crop_type_id: undefined,
+        new_sowing_time: undefined,
+        new_ex_harvest_time: undefined,
+      }
+      this.editForm = {
+        // todo cyan: 确认字段
+        massif_id: row.id,
+        // todo cyan: 确认字段
+        // new_crop_type_id: undefined,
+
+        new_sowing_time: row.planting_date,
+        new_ex_harvest_time: row.harvest_date,
+      }
+      
+      this.editVisible = true;
     },
   },
 };

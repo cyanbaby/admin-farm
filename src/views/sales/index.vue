@@ -1,11 +1,11 @@
 <template>
     <div class="dashboard-container">
-      地块管理
+      销售记录
     </div>
   </template>
   <script>
   export default {
-    name: 'Parcels'
+    name: 'Sales'
   }
   </script>
   

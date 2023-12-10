@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <div class="farm-talbe-header" style="padding-bottom: 20px">
-      <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addVisible = true">添加收获记录</el-button>
+      <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addVisible = true">添加灌溉记录</el-button>
     </div>
     <el-table :data="tableData" v-loading="listLoading" border style="width: 100%">
-      <!-- <el-table-column prop="harvest_id" label="主键"> </el-table-column> -->
+      <!-- <el-table-column prop="irrigation_id" label="主键"> </el-table-column> -->
       <el-table-column prop="massif_id" label="地块编号"> </el-table-column>
-      <el-table-column prop="harvest_quantity" label="收获数量"> </el-table-column>
-      <el-table-column prop="sowing_time" label="播种时间"> </el-table-column>
-      <el-table-column prop="harvest_time" label="收获时间">
+      <el-table-column prop="crop_name" label="作物"> </el-table-column>
+      <el-table-column prop="irrigate_quantity" label="灌溉量"> </el-table-column>
+      <el-table-column prop="irrigate_time" label="灌溉时间"> </el-table-column>
+      <el-table-column prop="username" label="username">
       </el-table-column>
-
       <el-table-column fixed="right" label="操作" width="220">
         <template slot-scope="scope">
           <el-button type="danger" icon="el-icon-delete" @click="handleRemoveRow(scope.row)">删除</el-button>
@@ -27,15 +27,11 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="收获数量" prop="harvest_quantity">
-          <el-input-number v-model="addForm.harvest_quantity" :precision="2"></el-input-number>
+        <el-form-item label="灌溉量" prop="irrigate_quantity">
+          <el-input-number v-model="addForm.irrigate_quantity" :precision="2"></el-input-number>
         </el-form-item>
-        <el-form-item label="播种时间" prop="sowing_time">
-          <el-date-picker v-model="addForm.sowing_time" type="datetime" placeholder="选择日期时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="预计收获时间" prop="harvest_time">
-          <el-date-picker v-model="addForm.harvest_time" type="datetime" placeholder="选择日期时间">
+        <el-form-item label="灌溉时间" prop="irrigate_time">
+          <el-date-picker v-model="addForm.irrigate_time" type="datetime" placeholder="选择日期时间">
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -86,13 +82,17 @@ import { getHarvest, addHarvest, deleteHarvest } from "@/api/harvests";
 
 import {
   getMassifs,
-  addMassifs,
-  updateMassifs,
-  deleteMassifs,
 } from "@/api/massifs";
 
+import {
+  getIrrigation,
+  addIrrigation,
+  deleteIrrigation,
+} from "@/api/irrigations";
+
+
 export default {
-  name: 'Harvests',
+    name: 'Irrigations',
   data() {
     return {
       listLoading: true,
@@ -113,23 +113,19 @@ export default {
       addLoading: false,
       addForm: {
         "massif_id": undefined,
-        "harvest_quantity": undefined,
-        "harvest_time": undefined,
-        "sowing_time": undefined,
+        "irrigate_quantity": undefined,
+        "irrigate_time": undefined,
 
       },
       addRules: {
         massif_id: [
           { required: true, message: "请选择地块编号", trigger: "blur" },
         ],
-        harvest_quantity: [
-          { required: true, message: "请填写收获数量", trigger: "blur" },
+        irrigate_quantity: [
+          { required: true, message: "请填写灌溉量", trigger: "blur" },
         ],
-        sowing_time: [
-          { required: true, message: "请选择播种时间", trigger: "blur" },
-        ],
-        harvest_time: [
-          { required: true, message: "请选择收获时间", trigger: "blur" },
+        irrigate_time: [
+          { required: true, message: "请选择灌溉时间", trigger: "blur" },
         ],
       },
 
@@ -162,13 +158,13 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      getHarvest().then((res) => {
-        const { harvests } = res;
-        this.tableData = harvests;
+      getIrrigation().then((res) => {
+        const { irrigations } = res;
+        this.tableData = irrigations;
       })
       .finally(() => {
       this.listLoading = false
-          })
+      })
     },
     handleRemoveRow(row) {
       this.$confirm("此操作将删除该行数据, 是否继续?", "提示", {
@@ -177,9 +173,9 @@ export default {
         type: "warning",
       })
         .then(() => {
-          const harvest_id = row.harvest_id;
-          deleteHarvest({
-            harvest_id,
+          const irrigation_id = row.irrigation_id;
+          deleteIrrigation({
+            irrigation_id,
           })
             .then((res) => {
               this.$message({
@@ -202,7 +198,7 @@ export default {
       this.$refs.addForm.validate((valid) => {
         if (valid) {
           this.addLoading = true;
-          addHarvest(this.addForm)
+          addIrrigation(this.addForm)
             .then((res) => {
               this.$message.success("添加成功");
               this.addVisible = false;

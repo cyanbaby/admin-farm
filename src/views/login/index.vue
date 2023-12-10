@@ -112,7 +112,8 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { register, getOrganizations } from '@/api/user'
+import { register } from '@/api/user'
+import { getOrganizations } from '@/api/organizations'
 
 export default {
   name: 'Login',

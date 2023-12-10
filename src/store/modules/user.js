@@ -1,4 +1,4 @@
-import { login, loginFarm, logout, getInfo } from '@/api/user'
+import { login, loginFarm, logoutFarm, getInfo } from '@/api/user'
 import {
   getToken, setToken, removeToken,
   getFarmToken, setFarmToken, removeFarmToken
@@ -68,7 +68,7 @@ const actions = {
   loginFarm({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      loginFarm({ username: username.trim(), password: password }).then(response => {
+      loginFarm({ login: username.trim(), password: password }).then(response => {
         const { token, username } = response
 
         commit('SET_FARM_TOKEN', token)
@@ -133,7 +133,7 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logoutFarm(state.token).then(() => {
         localStorage.removeItem('_username')
         localStorage.removeItem('_userinfo')
         // removeToken() // must remove  token  first
