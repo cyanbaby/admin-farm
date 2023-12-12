@@ -110,7 +110,7 @@ export const asyncRoutes = [
         path: 'index',
         name: 'MassifsIndex',
         component: () => import('@/views/massifs/index'),
-        meta: { roles: [999], title: '地块管理', icon: 'list' }
+        meta: { roles: [999, 0, 2], title: '地块管理', icon: 'list' }
       }
     ]
   },
@@ -122,7 +122,7 @@ export const asyncRoutes = [
         path: 'index',
         name: 'HarvestsIndex',
         component: () => import('@/views/harvests/index'),
-        meta: { roles: [999], title: '收获管理', icon: 'list' }
+        meta: { roles: [999, 2, 0], title: '收获管理', icon: 'list' }
       }
     ]
   },
@@ -134,7 +134,7 @@ export const asyncRoutes = [
         path: 'index',
         name: 'IrrigationsIndex',
         component: () => import('@/views/irrigations/index'),
-        meta: { roles: [999], title: '灌溉管理', icon: 'list' }
+        meta: { roles: [999, 2, 0], title: '灌溉管理', icon: 'list' }
       }
     ]
   },
@@ -146,7 +146,7 @@ export const asyncRoutes = [
         path: 'index',
         name: 'SalesIndex',
         component: () => import('@/views/sales/index'),
-        meta: { roles: [999], title: '销售记录', icon: 'list' }
+        meta: { roles: [0, 1, 2, 999], title: '销售记录', icon: 'list' }
       }
     ]
   },
@@ -158,7 +158,7 @@ export const asyncRoutes = [
         path: 'index',
         name: 'CropsIndex',
         component: () => import('@/views/crops/index'),
-        meta: { roles: [999], title: '作物管理', icon: 'list' }
+        meta: { roles: [0, 1, 2, 999], title: '作物管理', icon: 'list' }
       }
     ]
   },
@@ -182,78 +182,7 @@ export const asyncRoutes = [
         path: 'index',
         name: 'OrganizationsIndex',
         component: () => import('@/views/organizations/index'),
-        meta: { roles: [999], title: '组织管理', icon: 'list' }
-      }
-    ]
-  },
-  
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      roles: [1],
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: {  roles: [1], title: 'External Link', icon: 'link' }
+        meta: { roles: [999, 2], title: '组织管理', icon: 'list' }
       }
     ]
   },

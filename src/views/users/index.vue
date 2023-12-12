@@ -201,7 +201,7 @@ export default {
       this.$refs.editForm.validate((valid) => {
         if (valid) {
           this.editLoading = true;
-          updateUserInfo(this.addForm)
+          updateUserInfo(this.editForm)
             .then((res) => {
               this.$message.success("修改成功");
               this.editVisible = false;

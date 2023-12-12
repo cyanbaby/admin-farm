@@ -22,8 +22,8 @@
       <el-form ref="addForm" :model="addForm" :rules="addRules" class="custom-add-form custom-add-form--label-100">
         <el-form-item label="地块编号" prop="massif_id">
           <el-select v-model="addForm.massif_id" placeholder="请选择地块编号">
-            <el-option v-for="item in massifsOptions" :key="item.id" :label="item.id"
-              :value="item.id">
+            <el-option v-for="item in massifsOptions" :key="item.massif_id" :label="item.massif_id"
+              :value="item.massif_id">
             </el-option>
           </el-select>
         </el-form-item>
